@@ -1,0 +1,30 @@
+<div class="general-employee-info" *ngIf="generalInfoData">
+  <h2>General info</h2>
+
+  <div class="grid">
+    <div class="col-6">
+      <div class="grid">
+        <div class="col-6">
+          <p>Total number of employees:</p>
+          <p>Total clocked in time:</p>
+        </div>
+        <div class="col">
+          <p>{{ generalInfoData.totalNumberOfEmployees }}</p>
+          <p>{{ generalInfoData.totalClockedInTime }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="grid">
+        <div class="col-8">
+          <p>Total amount paid for regular hours:</p>
+          <p>Total amount paid for overtime hours:</p>
+        </div>
+        <div class="col">
+          <p>{{ generalInfoData.totalAmountRegularHours }}</p>
+          <p>{{ generalInfoData.totalAmountOvertimeHours }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

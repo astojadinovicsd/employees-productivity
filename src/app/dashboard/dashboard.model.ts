@@ -11,3 +11,10 @@ export interface ShiftInfo {
   clockInDate: string;
   clockOutDate: string;
 }
+
+export interface GeneralEmployeesInfo {
+  totalNumberOfEmployees: number;
+  totalClockedInTime: number;
+  totalAmountRegularHours: number;
+  totalAmountOvertimeHours: number;
+}

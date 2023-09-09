@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Employee, ShiftInfo } from './dashboard.model';
+import { Employee, GeneralEmployeesInfo, ShiftInfo } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { DashboardService } from './dashboard.service';
 export class DashboardComponent implements OnInit {
   employees: Employee[] = [];
   shifts: ShiftInfo[] = [];
+  generalEmployeesInfo?: GeneralEmployeesInfo;
 
   constructor(private dashboardService: DashboardService) {}
 
