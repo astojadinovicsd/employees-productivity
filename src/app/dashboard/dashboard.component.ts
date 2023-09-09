@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Employee, GeneralEmployeesInfo, ShiftInfo } from './dashboard.model';
+import {
+  Employee,
+  EmployeeAllShifts,
+  GeneralEmployeesInfo,
+  ShiftInfo,
+} from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 
 @Component({
@@ -12,6 +17,7 @@ export class DashboardComponent implements OnInit {
   employees: Employee[] = [];
   shifts: ShiftInfo[] = [];
   generalEmployeesInfo?: GeneralEmployeesInfo;
+  employeesAllShifts: EmployeeAllShifts[] = [];
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -22,5 +28,56 @@ export class DashboardComponent implements OnInit {
   fetchData() {
     this.employees = this.dashboardService.getEmployees();
     this.shifts = this.dashboardService.getShifts();
+    this.mapDashboardData();
+  }
+
+  mapDashboardData() {
+    this.employeesAllShifts = this.mapEmployeesAndShifts(
+      this.employees,
+      this.shifts
+    );
+    this.generalEmployeesInfo = this.getGeneralEmployeesInfo();
+  }
+
+  mapEmployeesAndShifts(
+    employees: Employee[],
+    shifts: ShiftInfo[]
+  ): EmployeeAllShifts[] {
+    const shiftsGroupedByEmployeeId: any = {};
+    shifts.forEach(shift => {
+      if (shiftsGroupedByEmployeeId[shift.employeeId]) {
+        shiftsGroupedByEmployeeId[shift.employeeId].push(shift);
+      } else {
+        shiftsGroupedByEmployeeId[shift.employeeId] = [shift];
+      }
+    });
+
+    const employeesAllShifts: EmployeeAllShifts[] = employees.map(
+      (employee: Employee) => {
+        const shifts = shiftsGroupedByEmployeeId[employee.id] || [];
+        return {
+          ...employee,
+          shifts,
+          totalClockedInTime: 0,
+          totalAmountRegularHours: 0,
+          totalAmountOvertimeHours: 0,
+        };
+      }
+    );
+
+    return employeesAllShifts;
+  }
+
+  getGeneralEmployeesInfo() {
+    return {
+      totalNumberOfEmployees: 10,
+      totalClockedInTime: 1111,
+      totalAmountRegularHours: 2222,
+      totalAmountOvertimeHours: 3333,
+    };
+  }
+
+  onBulkEdit(employees: EmployeeAllShifts[]) {
+    console.log(employees, '!!!!!!!!!!!!!!');
   }
 }

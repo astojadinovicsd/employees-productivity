@@ -1,4 +1,10 @@
 <div class="dashboard flex flex-column mt-5 p-3">
+  <h1>Admin Dashboard</h1>
+
   <ins-general-employees-info
     [generalInfoData]="generalEmployeesInfo"></ins-general-employees-info>
+
+  <ins-employees-list
+    [employees]="employeesAllShifts"
+    (bulkEdit)="onBulkEdit($event)"></ins-employees-list>
 </div>

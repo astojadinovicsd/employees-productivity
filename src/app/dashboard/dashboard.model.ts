@@ -6,6 +6,13 @@ export interface Employee {
   overtimeHourlyRate: number;
 }
 
+export interface EmployeeAllShifts extends Employee {
+  totalClockedInTime: number;
+  totalAmountRegularHours: number;
+  totalAmountOvertimeHours: number;
+  shifts: ShiftInfo[];
+}
+
 export interface ShiftInfo {
   employeeId: string;
   clockInDate: string;
