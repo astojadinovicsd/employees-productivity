@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
   Employee,
   EmployeeAllShifts,
@@ -6,6 +7,7 @@ import {
   ShiftInfo,
 } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
+import { EditEmployeesDialogComponent } from './edit-employees-dialog/edit-employees-dialog.component';
 
 @Component({
   selector: 'ins-dashboard',
@@ -19,7 +21,10 @@ export class DashboardComponent implements OnInit {
   generalEmployeesInfo?: GeneralEmployeesInfo;
   employeesAllShifts: EmployeeAllShifts[] = [];
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.fetchData();
@@ -78,6 +83,11 @@ export class DashboardComponent implements OnInit {
   }
 
   onBulkEdit(employees: EmployeeAllShifts[]) {
-    console.log(employees, '!!!!!!!!!!!!!!');
+    this.dialog.open(EditEmployeesDialogComponent, {
+      data: {
+        employees,
+      },
+      minWidth: 800,
+    });
   }
 }
