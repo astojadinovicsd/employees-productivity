@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { Employee, ShiftInfo } from "./dashboard.model";
+import { DashboardService } from "./dashboard.service";
 
 @Component({
     selector: 'ins-dashboard',
@@ -6,6 +8,20 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
   })
-  export class DashboardComponent  {
+  export class DashboardComponent implements OnInit {
+
+    employees: Employee[] = []
+    shifts: ShiftInfo[] = []
+
+    constructor(private dashboardService: DashboardService) {}
+
+    ngOnInit() {
+      this.fetchData()
+    }
+
+    fetchData() {
+      this.employees = this.dashboardService.getEmployees()
+      this.shifts = this.dashboardService.getShifts()
+    }
 
   }
