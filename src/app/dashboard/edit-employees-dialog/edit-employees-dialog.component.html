@@ -19,8 +19,8 @@
       mat-raised-button
       color="primary"
       cdkFocusInitial
-      [disabled]="form.invalid"
-      (click)="saved()">
+      [disabled]="form.invalid || saving"
+      (click)="save()">
       Save
     </button>
   </div>

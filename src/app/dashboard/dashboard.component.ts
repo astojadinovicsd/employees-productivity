@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { forkJoin } from 'rxjs';
 import {
   Employee,
   EmployeeWithShiftDetails,
@@ -24,8 +25,6 @@ import {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  allEmployees: Employee[] = [];
-  allShifts: ShiftInfo[] = [];
   generalEmployeesInfo?: GeneralEmployeesInfo;
   employeesWithShiftDetails: EmployeeWithShiftDetails[] = [];
 
@@ -40,20 +39,21 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchData() {
-    this.allEmployees = this.dashboardService.getEmployees();
-    this.allShifts = this.dashboardService.getShifts();
-    this.mapDashboardData();
+    forkJoin({
+      allEmployees: this.dashboardService.getEmployees(),
+      allShifts: this.dashboardService.getShifts(),
+    }).subscribe(({ allEmployees, allShifts }) => {
+      this.mapDashboardData(allEmployees, allShifts);
+    });
   }
 
-  mapDashboardData() {
+  mapDashboardData(allEmployees: Employee[], allShifts: ShiftInfo[]) {
     this.employeesWithShiftDetails =
-      this.dashboardService.mapEmployeesAndShifts(
-        this.allEmployees,
-        this.allShifts
-      );
+      this.dashboardService.mapEmployeesAndShifts(allEmployees, allShifts);
     this.generalEmployeesInfo = this.dashboardService.getGeneralEmployeesInfo(
       this.employeesWithShiftDetails
     );
+    this.cdr.detectChanges();
   }
 
   onBulkEdit(employees: EmployeeWithShiftDetails[]) {

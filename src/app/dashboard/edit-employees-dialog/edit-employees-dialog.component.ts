@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { delay, of } from 'rxjs';
 import { EmployeeWithShiftDetails, ShiftInfo } from '../dashboard.model';
 
 export interface EditEmployeesDialogData {
@@ -24,6 +25,7 @@ export interface UpdatedEmployeeData {
 })
 export class EditEmployeesDialogComponent {
   form: FormGroup;
+  saving = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EditEmployeesDialogData,
@@ -53,10 +55,16 @@ export class EditEmployeesDialogComponent {
     this.employees.push(employeeGroup);
   }
 
-  saved() {
+  save() {
     const updatedEmployeesData: UpdatedEmployeeData[] =
       this.form.getRawValue().employees;
 
-    this.dialogRef.close(updatedEmployeesData);
+    const fakeApiCall = of(updatedEmployeesData).pipe(delay(300));
+
+    this.saving = true;
+    fakeApiCall.subscribe(data => {
+      this.saving = false;
+      this.dialogRef.close(data);
+    });
   }
 }
