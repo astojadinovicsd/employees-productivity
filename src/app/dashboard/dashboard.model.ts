@@ -6,10 +6,9 @@ export interface Employee {
   overtimeHourlyRate: number;
 }
 
-export interface EmployeeWithShiftDetails extends Employee {
-  totalClockedInTime: number;
-  totalAmountRegularHours: number;
-  totalAmountOvertimeHours: number;
+export interface EmployeeWithShiftDetails
+  extends Employee,
+    ClockedInTimeAndTotalAmounts {
   shifts: ShiftInfo[];
 }
 
@@ -19,8 +18,11 @@ export interface ShiftInfo {
   clockOutDate: string;
 }
 
-export interface GeneralEmployeesInfo {
+export interface GeneralEmployeesInfo extends ClockedInTimeAndTotalAmounts {
   totalNumberOfEmployees: number;
+}
+
+export interface ClockedInTimeAndTotalAmounts {
   totalClockedInTime: number;
   totalAmountRegularHours: number;
   totalAmountOvertimeHours: number;

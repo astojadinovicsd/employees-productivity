@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   getDatePortionString,
@@ -8,13 +13,17 @@ import {
   isSameDay,
 } from '../core/utils';
 import {
+  ClockedInTimeAndTotalAmounts,
   Employee,
   EmployeeWithShiftDetails,
   GeneralEmployeesInfo,
   ShiftInfo,
 } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
-import { EditEmployeesDialogComponent } from './edit-employees-dialog/edit-employees-dialog.component';
+import {
+  EditEmployeesDialogComponent,
+  UpdatedEmployeeData,
+} from './edit-employees-dialog/edit-employees-dialog.component';
 
 @Component({
   selector: 'ins-dashboard',
@@ -30,6 +39,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef,
     private dialog: MatDialog
   ) {}
 
@@ -69,21 +79,44 @@ export class DashboardComponent implements OnInit {
     const employeesWithShiftDetails: EmployeeWithShiftDetails[] = employees.map(
       (employee: Employee) => {
         const shifts = shiftsGroupedByEmployeeId[employee.id] || [];
-        const totalClockedInTime = this.calcClockedInTIme(shifts);
-        const numberOfRegularHours = this.calcNumberOfRegularHours(shifts);
-        const numberOfOvertimeHours = totalClockedInTime - numberOfRegularHours;
+        const {
+          totalClockedInTime,
+          totalAmountRegularHours,
+          totalAmountOvertimeHours,
+        } = this.calculateClockedInTimeAndTotalAmounts(
+          shifts,
+          employee.hourlyRate,
+          employee.overtimeHourlyRate
+        );
         return {
           ...employee,
           shifts,
-          totalClockedInTime: totalClockedInTime,
-          totalAmountRegularHours: numberOfRegularHours * employee.hourlyRate,
-          totalAmountOvertimeHours:
-            numberOfOvertimeHours * employee.overtimeHourlyRate,
+          totalClockedInTime,
+          totalAmountRegularHours,
+          totalAmountOvertimeHours,
         };
       }
     );
 
     return employeesWithShiftDetails;
+  }
+
+  calculateClockedInTimeAndTotalAmounts(
+    shifts: ShiftInfo[],
+    hourlyRate: number,
+    overtimeHourlyRate: number
+  ): ClockedInTimeAndTotalAmounts {
+    const totalClockedInTime = this.calcClockedInTIme(shifts);
+    const numberOfRegularHours = this.calcNumberOfRegularHours(shifts);
+    const numberOfOvertimeHours = totalClockedInTime - numberOfRegularHours;
+    const totalAmountRegularHours = numberOfRegularHours * hourlyRate;
+    const totalAmountOvertimeHours = numberOfOvertimeHours * overtimeHourlyRate;
+
+    return {
+      totalClockedInTime,
+      totalAmountRegularHours,
+      totalAmountOvertimeHours,
+    };
   }
 
   calcClockedInTIme(shifts: ShiftInfo[]): number {
@@ -150,11 +183,60 @@ export class DashboardComponent implements OnInit {
   }
 
   onBulkEdit(employees: EmployeeWithShiftDetails[]) {
-    this.dialog.open(EditEmployeesDialogComponent, {
+    const dialogRef = this.dialog.open(EditEmployeesDialogComponent, {
       data: {
         employees,
       },
       minWidth: 800,
     });
+
+    dialogRef
+      .afterClosed()
+      .subscribe((updatedEmployeesData?: UpdatedEmployeeData[]) => {
+        if (updatedEmployeesData) {
+          this.updateAndRecalculateEmployeesWithShiftDetails(
+            this.employeesWithShiftDetails,
+            updatedEmployeesData
+          );
+        }
+      });
+  }
+
+  updateAndRecalculateEmployeesWithShiftDetails(
+    employeesWithShiftDetails: EmployeeWithShiftDetails[],
+    updatedEmployeesData: UpdatedEmployeeData[]
+  ) {
+    const employeesWithUpdatedData: EmployeeWithShiftDetails[] =
+      employeesWithShiftDetails.map(employee => {
+        const employeeUpdatedData = updatedEmployeesData.find(
+          (updatedEmployeeData: UpdatedEmployeeData) =>
+            updatedEmployeeData.id === employee.id
+        );
+        return employeeUpdatedData
+          ? this.updateAndRecalculateEmployee(employee, employeeUpdatedData)
+          : employee;
+      });
+
+    this.employeesWithShiftDetails = [...employeesWithUpdatedData];
+    this.generalEmployeesInfo = this.getGeneralEmployeesInfo(
+      this.employeesWithShiftDetails
+    );
+    this.cdr.detectChanges();
+  }
+
+  updateAndRecalculateEmployee(
+    initialEmployeeData: EmployeeWithShiftDetails,
+    employeeUpdatedData: UpdatedEmployeeData
+  ): EmployeeWithShiftDetails {
+    return Object.assign(
+      {},
+      initialEmployeeData,
+      employeeUpdatedData,
+      this.calculateClockedInTimeAndTotalAmounts(
+        employeeUpdatedData.shifts,
+        employeeUpdatedData.hourlyRate,
+        employeeUpdatedData.overtimeHourlyRate
+      )
+    );
   }
 }

@@ -15,7 +15,15 @@ import { EmployeeWithShiftDetails } from '../dashboard.model';
   styleUrls: ['./employees-list.component.scss'],
 })
 export class EmployeesListComponent {
-  @Input() employees: EmployeeWithShiftDetails[] = [];
+  private _employees: EmployeeWithShiftDetails[] = [];
+  @Input()
+  public get employees(): EmployeeWithShiftDetails[] {
+    return this._employees;
+  }
+  public set employees(value: EmployeeWithShiftDetails[]) {
+    this._employees = value;
+    this.selection = this.configureSelection();
+  }
 
   @Output() bulkEdit: EventEmitter<EmployeeWithShiftDetails[]> =
     new EventEmitter();
@@ -31,9 +39,13 @@ export class EmployeesListComponent {
   ];
 
   constructor() {
+    this.selection = this.configureSelection();
+  }
+
+  configureSelection() {
     const initialSelection: EmployeeWithShiftDetails[] = [];
     const allowMultiSelect = true;
-    this.selection = new SelectionModel<EmployeeWithShiftDetails>(
+    return new SelectionModel<EmployeeWithShiftDetails>(
       allowMultiSelect,
       initialSelection
     );
