@@ -6,7 +6,7 @@ export interface Employee {
   overtimeHourlyRate: number;
 }
 
-export interface EmployeeAllShifts extends Employee {
+export interface EmployeeWithShiftDetails extends Employee {
   totalClockedInTime: number;
   totalAmountRegularHours: number;
   totalAmountOvertimeHours: number;

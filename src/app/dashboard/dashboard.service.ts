@@ -35,9 +35,14 @@ export class DashboardService {
         clockOutDate: '2023-09-08T20:00:00',
       },
       {
+        employeeId: 'asdf1',
+        clockInDate: '2023-09-08T18:00:00',
+        clockOutDate: '2023-09-09T03:00:00',
+      },
+      {
         employeeId: 'asdf2',
         clockInDate: '2023-09-08T14:00:00',
-        clockOutDate: '2023-09-08T17:00:00',
+        clockOutDate: '2023-09-08T17:01:00',
       },
       {
         employeeId: 'asdf2',

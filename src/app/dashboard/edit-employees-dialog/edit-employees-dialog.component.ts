@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EmployeeAllShifts } from '../dashboard.model';
+import { EmployeeWithShiftDetails } from '../dashboard.model';
 
 export interface EditEmployeesDialogData {
-  employees: EmployeeAllShifts[];
+  employees: EmployeeWithShiftDetails[];
 }
 
 @Component({
@@ -31,7 +31,7 @@ export class EditEmployeesDialogComponent {
     return this.form.get('employees') as FormArray<FormGroup>;
   }
 
-  addEmployeeContorl(employee: EmployeeAllShifts) {
+  addEmployeeContorl(employee: EmployeeWithShiftDetails) {
     const employeeGroup = this.fb.group({
       name: [employee.name, Validators.required],
       email: [employee.email],

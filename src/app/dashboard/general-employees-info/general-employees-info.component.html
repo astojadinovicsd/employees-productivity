@@ -9,8 +9,8 @@
           <p>Total clocked in time:</p>
         </div>
         <div class="col">
-          <p>{{ generalInfoData.totalNumberOfEmployees }}</p>
-          <p>{{ generalInfoData.totalClockedInTime }}</p>
+          <p>{{ generalInfoData.totalNumberOfEmployees | number: '1.0-2' }}</p>
+          <p>{{ generalInfoData.totalClockedInTime | number: '1.0-2' }}</p>
         </div>
       </div>
     </div>
@@ -21,8 +21,10 @@
           <p>Total amount paid for overtime hours:</p>
         </div>
         <div class="col">
-          <p>{{ generalInfoData.totalAmountRegularHours }}</p>
-          <p>{{ generalInfoData.totalAmountOvertimeHours }}</p>
+          <p>{{ generalInfoData.totalAmountRegularHours | number: '1.0-2' }}</p>
+          <p>
+            {{ generalInfoData.totalAmountOvertimeHours | number: '1.0-2' }}
+          </p>
         </div>
       </div>
     </div>

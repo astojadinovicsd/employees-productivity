@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { EmployeeAllShifts } from '../dashboard.model';
+import { EmployeeWithShiftDetails } from '../dashboard.model';
 
 @Component({
   selector: 'ins-employees-list',
@@ -15,11 +15,12 @@ import { EmployeeAllShifts } from '../dashboard.model';
   styleUrls: ['./employees-list.component.scss'],
 })
 export class EmployeesListComponent {
-  @Input() employees: EmployeeAllShifts[] = [];
+  @Input() employees: EmployeeWithShiftDetails[] = [];
 
-  @Output() bulkEdit: EventEmitter<EmployeeAllShifts[]> = new EventEmitter();
+  @Output() bulkEdit: EventEmitter<EmployeeWithShiftDetails[]> =
+    new EventEmitter();
 
-  selection: SelectionModel<EmployeeAllShifts>;
+  selection: SelectionModel<EmployeeWithShiftDetails>;
   displayedColumns: string[] = [
     'select',
     'name',
@@ -30,9 +31,9 @@ export class EmployeesListComponent {
   ];
 
   constructor() {
-    const initialSelection: EmployeeAllShifts[] = [];
+    const initialSelection: EmployeeWithShiftDetails[] = [];
     const allowMultiSelect = true;
-    this.selection = new SelectionModel<EmployeeAllShifts>(
+    this.selection = new SelectionModel<EmployeeWithShiftDetails>(
       allowMultiSelect,
       initialSelection
     );
