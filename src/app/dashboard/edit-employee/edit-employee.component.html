@@ -1,20 +1,37 @@
 <div [formGroup]="form" *ngIf="form">
-  <div class="formgrid grid gap-3 pr-3">
-    <div class="field col">
-      <label for="name">Name</label>
-      <input
-        formControlName="name"
-        id="name"
-        type="text"
-        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+  <div class="formgrid grid">
+    <div class="field col-6">
+      <mat-form-field class="w-full">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" />
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          required
+        </mat-error>
+      </mat-form-field>
     </div>
-    <div class="field col">
-      <label for="lastname2">Email</label>
-      <input
-        formControlName="email"
-        id="email"
-        type="text"
-        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    <div class="field col-6">
+      <mat-form-field class="w-full">
+        <mat-label>Employee hourly rate</mat-label>
+        <input type="number" matInput formControlName="hourlyRate" />
+        <mat-error *ngIf="form.get('hourlyRate')?.hasError('required')">
+          required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="field col-6">
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" />
+      </mat-form-field>
+    </div>
+    <div class="field col-6">
+      <mat-form-field class="w-full">
+        <mat-label>Employee overtime hourly rate</mat-label>
+        <input type="number" matInput formControlName="overtimeHourlyRate" />
+        <mat-error *ngIf="form.get('overtimeHourlyRate')?.hasError('required')">
+          required
+        </mat-error>
+      </mat-form-field>
     </div>
   </div>
 </div>

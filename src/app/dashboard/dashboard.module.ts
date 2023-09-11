@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './dashboard.service';
@@ -20,6 +22,8 @@ import { GeneralEmployeesInfoComponent } from './general-employees-info/general-
     MatCheckboxModule,
     MatButtonModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   declarations: [
     DashboardComponent,
