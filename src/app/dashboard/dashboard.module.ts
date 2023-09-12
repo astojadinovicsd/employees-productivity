@@ -1,13 +1,14 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -22,6 +23,7 @@ import { GeneralEmployeesInfoComponent } from './general-employees-info/general-
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatTableModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -32,6 +34,7 @@ import { GeneralEmployeesInfoComponent } from './general-employees-info/general-
     MatPaginatorModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule,
   ],
   declarations: [
     DashboardComponent,

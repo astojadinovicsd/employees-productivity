@@ -31,6 +31,7 @@ export class EditEmployeeComponent implements AfterViewInit {
   private _employeeForm?: FormGroup | undefined;
   displayedColumns: string[] = ['clockInDate', 'clockOutDate'];
   dataSource: MatTableDataSource<any>;
+  selectedFilterDate: Date | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -65,5 +66,10 @@ export class EditEmployeeComponent implements AfterViewInit {
 
       return clockInDate.includes(filter) || clockOutDate.includes(filter);
     };
+  }
+
+  clearSelectedDate() {
+    this.selectedFilterDate = null;
+    this.dataSource.filter = '';
   }
 }
