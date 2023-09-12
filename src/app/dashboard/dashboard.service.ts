@@ -139,6 +139,12 @@ export class DashboardService {
     return of(shifts).pipe(delay(500));
   }
 
+  updateEmployees(
+    updatedEmployeesData: UpdatedEmployeeData[]
+  ): Observable<UpdatedEmployeeData[]> {
+    return of(updatedEmployeesData).pipe(delay(300));
+  }
+
   mapEmployeesAndShifts(
     employees: Employee[],
     shifts: ShiftInfo[]

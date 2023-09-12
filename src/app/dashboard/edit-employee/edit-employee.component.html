@@ -1,10 +1,10 @@
-<div [formGroup]="form" *ngIf="form">
+<div [formGroup]="employeeForm" *ngIf="employeeForm" class="mb-6">
   <div class="formgrid grid">
     <div class="field col-6">
       <mat-form-field class="w-full">
         <mat-label>Name</mat-label>
         <input type="text" matInput formControlName="name" />
-        <mat-error *ngIf="form.get('name')?.hasError('required')">
+        <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
           required
         </mat-error>
       </mat-form-field>
@@ -13,7 +13,7 @@
       <mat-form-field class="w-full">
         <mat-label>Employee hourly rate</mat-label>
         <input type="number" matInput formControlName="hourlyRate" />
-        <mat-error *ngIf="form.get('hourlyRate')?.hasError('required')">
+        <mat-error *ngIf="employeeForm.get('hourlyRate')?.hasError('required')">
           required
         </mat-error>
       </mat-form-field>
@@ -28,10 +28,75 @@
       <mat-form-field class="w-full">
         <mat-label>Employee overtime hourly rate</mat-label>
         <input type="number" matInput formControlName="overtimeHourlyRate" />
-        <mat-error *ngIf="form.get('overtimeHourlyRate')?.hasError('required')">
+        <mat-error
+          *ngIf="employeeForm.get('overtimeHourlyRate')?.hasError('required')">
           required
         </mat-error>
       </mat-form-field>
     </div>
+  </div>
+
+  <div class="flex justify-content-between align-items-center">
+    <strong>Shifts</strong>
+
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        (dateChange)="applyFilter($event)" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z2">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="clockInDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clock in date</th>
+        <td mat-cell *matCellDef="let shift" [formGroup]="shift">
+          <mat-form-field class="w-full">
+            <input
+              type="datetime-local"
+              matInput
+              formControlName="clockInDate" />
+            <mat-error *ngIf="shift.get('clockInDate')?.hasError('required')">
+              required
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="clockOutDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Clock out date
+        </th>
+        <td mat-cell *matCellDef="let shift" [formGroup]="shift">
+          <mat-form-field class="w-full">
+            <input
+              type="datetime-local"
+              matInput
+              formControlName="clockOutDate" />
+            <mat-error *ngIf="shift.get('clockOutDate')?.hasError('required')">
+              required
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter</td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page of shifts"></mat-paginator>
   </div>
 </div>

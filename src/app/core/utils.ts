@@ -33,3 +33,11 @@ export function getHoursFromStartOfDay(dateString: string): number {
     dateInMilliseconds - (dateInMilliseconds % 86400000);
   return (dateInMilliseconds - startOfDayInMilliseconds) / 3600000;
 }
+
+export function getDateWithoutTimezone(date: Date): string {
+  const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
+  const withoutTimezone = new Date(date.valueOf() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+  return withoutTimezone;
+}
