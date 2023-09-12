@@ -41,3 +41,9 @@ export function getDateWithoutTimezone(date: Date): string {
     .slice(0, -1);
   return withoutTimezone;
 }
+
+export function addDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}

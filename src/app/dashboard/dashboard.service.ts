@@ -14,129 +14,16 @@ import {
   ShiftInfo,
 } from './dashboard.model';
 import { UpdatedEmployeeData } from './edit-employees-dialog/edit-employees-dialog.component';
+import { employeesMock, shiftsMock } from './mock-data';
 
 @Injectable()
 export class DashboardService {
   getEmployees(): Observable<Employee[]> {
-    const employees = [
-      {
-        id: 'asdf1',
-        name: 'Bogdan Bogdanovic',
-        email: 'a@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf2',
-        name: 'Aleksa Avramovic',
-        email: 's@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf3',
-        name: 'Dejan Davidovac',
-        email: 'd@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf4',
-        name: 'Ognjen Dobric',
-        email: 'f@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf5',
-        name: 'Marko Guduric',
-        email: 'g@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf6',
-        name: 'Nikola Jovic',
-        email: 'h@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf7',
-        name: 'Stefan Jovic',
-        email: 'j@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf8',
-        name: 'Vanja Marinkovic',
-        email: 'k@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf9',
-        name: 'Nikola Milutinov',
-        email: 'l@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf10',
-        name: 'Filip Petrusev',
-        email: 'q@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf11',
-        name: 'Dusan Ristic',
-        email: 'w@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-      {
-        id: 'asdf12',
-        name: 'Borisa Simanic',
-        email: 'e@f.com',
-        hourlyRate: 100,
-        overtimeHourlyRate: 200,
-      },
-    ];
-
-    return of(employees).pipe(delay(300));
+    return of(employeesMock).pipe(delay(300));
   }
 
   getShifts(): Observable<ShiftInfo[]> {
-    const shifts = [
-      {
-        employeeId: 'asdf1',
-        clockInDate: '2023-09-08T14:00:00',
-        clockOutDate: '2023-09-08T17:00:00',
-      },
-      {
-        employeeId: 'asdf1',
-        clockInDate: '2023-09-08T18:00:00',
-        clockOutDate: '2023-09-08T20:00:00',
-      },
-      {
-        employeeId: 'asdf1',
-        clockInDate: '2023-09-08T18:00:00',
-        clockOutDate: '2023-09-09T03:00:00',
-      },
-      {
-        employeeId: 'asdf2',
-        clockInDate: '2023-09-08T14:00:00',
-        clockOutDate: '2023-09-08T17:00:00',
-      },
-      {
-        employeeId: 'asdf2',
-        clockInDate: '2023-09-08T18:00:00',
-        clockOutDate: '2023-09-08T20:00:00',
-      },
-    ];
-    return of(shifts).pipe(delay(500));
+    return of(shiftsMock).pipe(delay(500));
   }
 
   updateEmployees(
